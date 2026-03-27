@@ -1,29 +1,37 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <sdf version="1.11">
+  <!-- 定义一个名为 "basketball_court" 的仿真世界 -->
   <world name="basketball_court">
 
-    <!-- 物理引擎 -->
+    <!-- ========================================== -->
+    <!-- 1. 物理引擎配置 (ODE) -->
+    <!-- ========================================== -->
     <physics type="ode">
-      <max_step_size>0.004</max_step_size>
-      <real_time_factor>1.0</real_time_factor>
-      <real_time_update_rate>250</real_time_update_rate>
+      <max_step_size>0.004</max_step_size>                <!-- 物理仿真最大步长 (秒)，越小越精确但越慢。0.004s = 250Hz -->
+      <real_time_factor>1.0</real_time_factor>            <!-- 实时因子：1.0 表示仿真速度与真实时间一致 -->
+      <real_time_update_rate>250</real_time_update_rate>  <!-- 物理引擎更新频率 (Hz) -->
     </physics>
 
-    <!-- 核心系统插件 -->
-    <plugin name="gz::sim::systems::Physics" filename="gz-sim-physics-system"/>
-    <plugin name="gz::sim::systems::UserCommands" filename="gz-sim-user-commands-system"/>
-    <plugin name="gz::sim::systems::SceneBroadcaster" filename="gz-sim-scene-broadcaster-system"/>
-    <plugin name="gz::sim::systems::Contact" filename="gz-sim-contact-system"/>
-    <plugin name="gz::sim::systems::Imu" filename="gz-sim-imu-system"/>
-    <plugin name="gz::sim::systems::AirPressure" filename="gz-sim-air-pressure-system"/>
-    <plugin name="gz::sim::systems::ApplyLinkWrench" filename="gz-sim-apply-link-wrench-system"/>
-    <plugin name="gz::sim::systems::NavSat" filename="gz-sim-navsat-system"/>
-    <plugin name="gz::sim::systems::Sensors" filename="gz-sim-sensors-system">
-      <render_engine>ogre2</render_engine>
+    <!-- ========================================== -->
+    <!-- 2. Gazebo Sim 核心系统插件 (模块化功能) -->
+    <!-- ========================================== -->
+    <plugin name="gz::sim::systems::Physics" filename="gz-sim-physics-system"/>                     <!-- 启用物理动力学 -->
+    <plugin name="gz::sim::systems::UserCommands" filename="gz-sim-user-commands-system"/>          <!-- 支持通过 API/命令行生成/删除实体 -->
+    <plugin name="gz::sim::systems::SceneBroadcaster" filename="gz-sim-scene-broadcaster-system"/>  <!-- 场景数据广播，供 GUI 和传感器使用 -->
+    <plugin name="gz::sim::systems::Contact" filename="gz-sim-contact-system"/>                     <!-- 碰撞接触检测系统 -->
+    <plugin name="gz::sim::systems::Imu" filename="gz-sim-imu-system"/>                             <!-- IMU (惯性测量单元) 传感器支持 -->
+    <plugin name="gz::sim::systems::AirPressure" filename="gz-sim-air-pressure-system"/>            <!-- 气压计传感器支持 -->
+    <plugin name="gz::sim::systems::ApplyLinkWrench" filename="gz-sim-apply-link-wrench-system"/>   <!-- 允许对连杆施加力/力矩 -->
+    <plugin name="gz::sim::systems::NavSat" filename="gz-sim-navsat-system"/>                       <!-- NavSat（导航）传感器支持 -->
+    <plugin name="gz::sim::systems::Sensors" filename="gz-sim-sensors-system">                      <!-- 通用传感器管理系统 -->
+      <render_engine>ogre2</render_engine> <!-- 指定渲染引擎为 Ogre2 (性能更好) -->
     </plugin>
 
-    <!-- GUI界面 -->
+    <!-- ========================================== -->
+    <!-- 3. GUI 界面配置 -->
+    <!-- ========================================== -->
     <gui fullscreen="false">
+      <!-- 3D 视图窗口 -->
       <plugin filename="MinimalScene" name="3D View">
         <gz-gui>
           <title>3D View</title>
@@ -34,22 +42,24 @@
         <scene>scene</scene>
         <ambient_light>0.4 0.4 0.4</ambient_light>
         <background_color>0.8 0.8 0.8</background_color>
-        <camera_pose>-10 0 8 0 0.5 0</camera_pose>
+        <camera_pose>-10 0 8 0 0.5 0</camera_pose> <!-- 初始视角相机位置 -->
         <camera_clip>
           <near>0.25</near>
           <far>25000</far>
         </camera_clip>
       </plugin>
 
-      <plugin filename="EntityContextMenuPlugin" name="Entity context menu"/>
-      <plugin filename="GzSceneManager" name="Scene Manager"/>
-      <plugin filename="InteractiveViewControl" name="Interactive view control"/>
-      <plugin filename="CameraTracking" name="Camera Tracking"/>
-      <plugin filename="MarkerManager" name="Marker manager"/>
-      <plugin filename="SelectEntities" name="Select Entities"/>
+      <!-- 一系列 GUI 工具插件 -->
+      <plugin filename="EntityContextMenuPlugin" name="Entity context menu"/>       <!-- 右键菜单 -->
+      <plugin filename="GzSceneManager" name="Scene Manager"/>                      <!-- 场景管理器 -->
+      <plugin filename="InteractiveViewControl" name="Interactive view control"/>   <!-- 鼠标交互控制视角 -->
+      <plugin filename="CameraTracking" name="Camera Tracking"/>                    <!-- 相机追踪功能 -->
+      <plugin filename="MarkerManager" name="Marker manager"/>                      <!-- 标记物管理 -->
+      <plugin filename="SelectEntities" name="Select Entities"/>                    <!-- 实体选择 -->
       <plugin filename="VisualizationCapabilities" name="Visualization Capabilities"/>
-      <plugin filename="Spawn" name="Spawn Entities"/>
+      <plugin filename="Spawn" name="Spawn Entities"/>                              <!-- 手动生成模型工具 -->
       
+      <!-- 仿真控制条 (播放/暂停/步进) -->
       <plugin name="World control" filename="WorldControl">
         <gz-gui>
           <title>World control</title>
@@ -66,9 +76,10 @@
         </gz-gui>
         <play_pause>1</play_pause>
         <step>1</step>
-        <start_paused>1</start_paused>
+        <start_paused>1</start_paused>                                              <!-- 启动时默认暂停 -->
       </plugin>
 
+      <!-- 仿真状态显示 (时间/实时因子/迭代次数) -->
       <plugin name="World stats" filename="WorldStats">
         <gz-gui>
           <title>World stats</title>
@@ -89,44 +100,53 @@
         <iterations>1</iterations>
       </plugin>
       
-      <plugin name="Entity tree" filename="EntityTree"/>
+      <plugin name="Entity tree" filename="EntityTree"/> <!-- 实体树列表 -->
     </gui>
 
-    <!-- 环境参数 -->
-    <gravity>0 0 -9.8</gravity>
-    <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
-    <atmosphere type="adiabatic"/>
+    <!-- ========================================== -->
+    <!-- 4. 环境与场景参数 -->
+    <!-- ========================================== -->
+    <gravity>0 0 -9.8</gravity>                                   <!-- 重力加速度 (m/s^2)，Z轴向下 -->
+    <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>       <!-- 地球磁场强度 (特斯拉)，用于罗盘仿真 -->
+    <atmosphere type="adiabatic"/>                                <!-- 大气模型 (绝热) -->
     
     <scene>
-      <grid>false</grid>
-      <ambient>0.4 0.4 0.4 1</ambient>
-      <background>0.7 0.7 0.7 1</background>
-      <shadows>true</shadows>
+      <grid>false</grid>                                          <!-- 隐藏默认地面网格 -->
+      <ambient>0.4 0.4 0.4 1</ambient>                            <!-- 环境光强度 (RGBA) -->
+      <background>0.7 0.7 0.7 1</background>                      <!-- 背景颜色 -->
+      <shadows>true</shadows>                                     <!-- 启用阴影渲染 -->
     </scene>
 
-    <!-- 加载篮球场模型 -->
+    <!-- ========================================== -->
+    <!-- 5. 引入篮球场模型 -->
+    <!-- ========================================== -->
     <include>
       <name>basketball_court</name>
-      <uri>model://basketball_court</uri>
-      <pose>0 0 0 0 0 0</pose>
+      <uri>model://basketball_court</uri>                         <!-- 引用你上一个文件定义的模型 -->
+      <pose>0 0 0 0 0 0</pose>                                    <!-- 放置在世界原点 -->
     </include>
 
-    <!-- 太阳光 -->
+    <!-- ========================================== -->
+    <!-- 6. 光照系统 (太阳光) -->
+    <!-- ========================================== -->
     <light name="sun" type="directional">
-      <pose>0 0 1000 0 0 0</pose>
-      <cast_shadows>true</cast_shadows>
-      <intensity>1.2</intensity>
-      <direction>0.1 0.7 -0.8</direction>
-      <diffuse>1 1 1 1</diffuse>
-      <specular>0.3 0.3 0.3 1</specular>
+      <pose>0 0 1000 0 0 0</pose>                                 <!-- 光源位置 (很高，模拟太阳) -->
+      <cast_shadows>true</cast_shadows>                           <!-- 光源投射阴影 -->
+      <intensity>1.2</intensity>                                  <!-- 光照强度 -->
+      <direction>0.1 0.7 -0.8</direction>                         <!-- 光照照射方向 -->
+      <diffuse>1 1 1 1</diffuse>                                  <!-- 漫反射颜色 -->
+      <specular>0.3 0.3 0.3 1</specular>                          <!-- 镜面反射颜色 -->
     </light>
 
+    <!-- ========================================== -->
+    <!-- 7. 球形坐标 (GPS 原点设置) -> 关键点！ -->
+    <!-- ========================================== -->
     <spherical_coordinates>
-      <surface_model>EARTH_WGS84</surface_model>
-      <world_frame_orientation>ENU</world_frame_orientation>
-      <latitude_deg>24.623911</latitude_deg>
-      <longitude_deg>118.087898</longitude_deg>
-      <elevation>0</elevation>
+      <surface_model>EARTH_WGS84</surface_model>                <!-- 地球椭球体模型：WGS84 -->
+      <world_frame_orientation>ENU</world_frame_orientation>    <!-- 坐标系方向：East-North-Up (东北天) -->
+      <latitude_deg>24.623911</latitude_deg>                    <!-- 纬度：厦门理工学院 (集美校区) -->
+      <longitude_deg>118.087898</longitude_deg>                 <!-- 经度：厦门理工学院 (集美校区) -->
+      <elevation>0</elevation>                                  <!-- 海拔高度 (米) -->
     </spherical_coordinates>
 
   </world>
