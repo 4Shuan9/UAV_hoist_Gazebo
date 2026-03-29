@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>      <!-- XML声明：定义文档版本与编码格式 -->
-<sdf version='1.9'>                        <!-- SDF根标签：指定SDF格式版本为1.11 -->
+<sdf version='1.9'>                         <!-- SDF根标签：指定SDF格式版本为1.11 -->
   <model name='basketball_court'>           <!-- 模型定义：创建名为"basketball_court"的模型 -->
     <pose>0 0 0 0 0 0</pose>                <!-- 模型位姿：设置初始位置(x,y,z)与姿态(roll,pitch,yaw) -->
     <self_collide>false</self_collide>      <!-- 自碰撞：禁用模型内部连杆间的碰撞检测 -->
