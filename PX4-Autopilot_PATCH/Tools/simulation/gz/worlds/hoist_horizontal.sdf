@@ -2,14 +2,14 @@
 <sdf version="1.9">
   <world name="hoist_horizontal">
     
-    <!-- ================= 核心系统插件部分 (新增) ================= -->
+    <!-- ================= 核心系统插件 ================= -->
     <plugin filename="gz-sim-physics-system" name="gz::sim::systems::Physics"></plugin>
     <plugin filename="gz-sim-user-commands-system" name="gz::sim::systems::UserCommands"></plugin>
     <plugin filename="gz-sim-scene-broadcaster-system" name="gz::sim::systems::SceneBroadcaster"></plugin>
     <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
       <render_engine>ogre2</render_engine>
     </plugin>
-    <!-- 传感器数据生成插件：解决 QGC 报错的核心 -->
+    <!-- =================  传感器插件  ================= -->
     <plugin filename="gz-sim-imu-system" name="gz::sim::systems::Imu"></plugin>
     <plugin filename="gz-sim-magnetometer-system" name="gz::sim::systems::Magnetometer"></plugin>
     <plugin filename="gz-sim-altimeter-system" name="gz::sim::systems::Altimeter"></plugin>
@@ -104,31 +104,25 @@
     </light>
     
     <spherical_coordinates>
-      <!-- 地球椭球模型：WGS-84 标准 -->
       <surface_model>EARTH_WGS84</surface_model>
-      <!-- 世界坐标系朝向：ENU（东-北-天） -->
       <world_frame_orientation>ENU</world_frame_orientation>
-      <!-- 厦门理工学院集美校区经纬度 -->
       <latitude_deg>24.623911</latitude_deg>
       <longitude_deg>118.087898</longitude_deg>
-      <!-- 海拔高度（米），0 表示地面基准面 -->
       <elevation>0</elevation>
     </spherical_coordinates>
 
-    <!-- ================= 核心模型部分 ================= -->
+    <!-- ================= 模型载入模块 ================= -->
     
     <!-- 1. 红球 (负载) -->
     <include>
       <name>payload_ball</name>
-      <!-- 移动到 X=1.0 的位置 -->
       <pose>1.0 0 0.1 0 0 0</pose>
-      <uri>model://red_ball</uri>
+      <uri>model://payload_ball</uri>
     </include>
 
     <!-- 2. 绳子 -->
     <include>
       <name>rope</name>
-      <!-- 平移到1.0的位置，并绕Z轴旋转180度(3.14159弧度)，使其反向指回原点 -->
       <pose>1.0 0 0.1 0 0 3.14159</pose>
       <uri>model://rope</uri>
     </include>
@@ -136,20 +130,17 @@
     <!-- 3. 无人机 -->
     <include>
       <name>x500_mono_cam_down</name>
-      <!-- 移动到原点 X=0 的位置 -->
       <pose>0 0 0.1 0 0 0</pose>
       <uri>model://x500_mono_cam_down</uri>
     </include>
 
-    <!-- ================= 关节约束部分 ================= -->
+    <!-- ================= 关节约束模块 ================= -->
     
-    <!-- 无人机与绳子顶端连接 (保持不变) -->
     <joint name="uav_rope_joint" type="ball">
       <parent>rope::end_link</parent>
       <child>x500_mono_cam_down::base_link</child>
     </joint>
 
-    <!-- 负载红球与绳子底端连接 (保持不变) -->
     <joint name="ball_rope_joint" type="ball">
       <parent>payload_ball::ball_link</parent>
       <child>rope::begin_link</child>
