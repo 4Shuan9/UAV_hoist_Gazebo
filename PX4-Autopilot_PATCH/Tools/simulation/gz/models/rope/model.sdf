@@ -702,7 +702,7 @@
         <linear>0.1</linear>
         <angular>0.1</angular>
       </velocity_decay>
-      <sensor name="imu_sensor" type="imu">
+      <sensor name="rope_imu" type="imu">
         <always_on>1</always_on>
         <update_rate>250</update_rate>
         <visualize>true</visualize>

@@ -37,6 +37,14 @@
         </inertia>
       </inertial>
 
+      <sensor name="ball_imu" type="imu">
+        <always_on>1</always_on>
+        <update_rate>250</update_rate>
+        <visualize>true</visualize>
+        <imu>
+          </imu>
+      </sensor>
+
     </link>
   </model>
 </sdf>

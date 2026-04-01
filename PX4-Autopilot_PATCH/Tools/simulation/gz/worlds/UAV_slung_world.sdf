@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sdf version="1.9">
-  <world name="UAV_gslung_world">
+  <world name="UAV_slung_world">
     
     <!-- GUI 界面与插件配置 -->
     <gui fullscreen="0">
@@ -107,7 +107,7 @@
           <title>Drone Downward Camera</title>
           <property key="state" type="string">docked</property>
         </gz-gui>
-        <topic>/world/slung_horizontal/model/x500_mono_cam_down/link/camera_link/sensor/imager/image</topic>
+        <topic>/world/UAV_slung_world/model/x500_mono_cam_down/link/camera_link/sensor/imager/image</topic>
       </plugin>
     </gui>
 
