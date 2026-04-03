@@ -14,6 +14,14 @@
       <force_approximation_scaling_factor>1</force_approximation_scaling_factor>
       <linear_velocity>0 0 0</linear_velocity>
     </plugin>
+    <plugin filename="gz-sim-pose-publisher-system" name="gz::sim::systems::PosePublisher">
+      <publish_link_pose>false</publish_link_pose>
+      <publish_visual_pose>false</publish_visual_pose>
+      <publish_collision_pose>false</publish_collision_pose>
+      <publish_sensor_pose>false</publish_sensor_pose>
+      <publish_model_pose>true</publish_model_pose> <use_pose_vector_msg>true</use_pose_vector_msg>
+      <update_frequency>250</update_frequency>
+    </plugin>
 
     <!-- 传感器系统插件 -->
     <plugin filename="gz-sim-imu-system" name="gz::sim::systems::Imu"></plugin>
@@ -49,7 +57,7 @@
           <geometry>
             <plane>
               <normal>0 0 1</normal>
-              <size>1 1</size>
+              <size>500 500</size>
             </plane>
           </geometry>
         </collision>
