@@ -119,7 +119,7 @@
         <publish_visual_pose>false</publish_visual_pose>
         <publish_collision_pose>false</publish_collision_pose>
         <publish_sensor_pose>false</publish_sensor_pose>
-        <publish_model_pose>true</publish_model_pose> <use_pose_vector_msg>true</use_pose_vector_msg>
+        <publish_model_pose>true</publish_model_pose> <use_pose_vector_msg>false</use_pose_vector_msg>
         <update_frequency>200</update_frequency>
       </plugin>
     </include>
@@ -139,7 +139,7 @@
         <publish_visual_pose>false</publish_visual_pose>
         <publish_collision_pose>false</publish_collision_pose>
         <publish_sensor_pose>false</publish_sensor_pose>
-        <publish_model_pose>true</publish_model_pose> <use_pose_vector_msg>true</use_pose_vector_msg>
+        <publish_model_pose>true</publish_model_pose> <use_pose_vector_msg>false</use_pose_vector_msg>
         <update_frequency>200</update_frequency>
       </plugin>
     </include>
