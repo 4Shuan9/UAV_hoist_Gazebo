@@ -22,30 +22,44 @@ This project is a refactored version of the [rain_ws](https://github.com/Rainbow
 
 ## Quick Start Guide
 ```
-# Launch QGroundControl (QGC)
-cd ~/Desktop
+# QGC
+cd ~/桌面
 ./QGroundControl_5.0.8.AppImage
 
-# Start the Micro-XRCE-DDS Agent
+# XRCE-DDS Agent
 MicroXRCEAgent udp4 -p 8888
 
-# Launch the Gazebo Simulation World
+# gazebo
 gz sim -r UAV_slung_world.sdf
 
-# Start PX4 SITL
+# PX4
 cd ~/PX4-Autopilot
 export PX4_GZ_MODEL_NAME=x500_mono_cam_down
 ./build/px4_sitl_default/bin/px4
 
-# Start the Downward Camera Node
-ros2 run slung_ctrl gz_cam_raw
+# gz_cam
+ros2 run slung_ctrl gz_cam_raw.py
+ros2 run slung_ctrl gz_cam_cv.py
 
-# Start the ROS-GZ Bridge for the Payload IMU
-ros2 run ros_gz_bridge parameter_bridge /world/UAV_slung_world/model/payload_ball/link/ball_link/sensor/ball_imu/imu@sensor_msgs/msg/Imu[gz.msgs.IMU
+# 启动 ros_gz_bridge 桥接 Pose 话题
+ros2 run ros_gz_bridge parameter_bridge \
+/model/payload_ball/pose@geometry_msgs/msg/PoseStamped[gz.msgs.Pose \
+/model/x500_mono_cam_down/pose@geometry_msgs/msg/PoseStamped[gz.msgs.Pose
 
-# Echo data from the payload's IMU
-ros2 topic echo /world/UAV_slung_world/model/payload_ball/link/ball_link/sensor/ball_imu/imu
+# swing_angle
+ros2 run slung_ctrl swing_angle.py
+ros2 run slung_ctrl swing_angle_truth
+ros2 run slung_ctrl swing_angle_cv
 
-# Command the UAV to Takeoff
+# takeoff
 ros2 run slung_ctrl slung_takeoff
+
+# PlotJuggler
+ros2 run plotjuggler plotjuggler
+
+# 暂时放弃
+# 启动 ros_gz_bridge 桥接 imu 话题
+ros2 run ros_gz_bridge parameter_bridge /world/UAV_slung_world/model/payload_ball/link/ball_link/sensor/ball_imu/imu@sensor_msgs/msg/Imu[gz.msgs.IMU
+# topic echo
+ros2 topic echo /world/UAV_slung_world/model/payload_ball/link/ball_link/sensor/ball_imu/imu
 ```
