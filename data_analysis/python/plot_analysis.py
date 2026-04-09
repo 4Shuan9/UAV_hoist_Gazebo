@@ -7,7 +7,7 @@ import os
 # ==========================================
 # 配置区：在此修改文件名和路径
 # ==========================================
-CSV_FILE_PATH = '../csv/20260408_test1_Data.csv'  # 替换为你的文件名
+CSV_FILE_PATH = '../csv/20260409_test1_Data.csv'  # 替换为你的文件名
 START_TIME_OFFSET = 0  # 绘图起始时间偏移（秒），默认为0
 
 # ==========================================
@@ -92,9 +92,9 @@ def process_drone_data(file_path):
     )
 
     fig.update_xaxes(title_text="Time (s)", row=3, col=1)
-    fig.update_yaxes(title_text="Angle (rad)", row=1, col=1)
-    fig.update_yaxes(title_text="Angle (rad)", row=2, col=1)
-    fig.update_yaxes(title_text="Error (rad)", row=3, col=1)
+    fig.update_yaxes(title_text="Angle (deg)", row=1, col=1)
+    fig.update_yaxes(title_text="Angle (deg)", row=2, col=1)
+    fig.update_yaxes(title_text="Error (deg)", row=3, col=1)
 
     # 显示图表（在浏览器打开，支持自由缩放）
     fig.show()
